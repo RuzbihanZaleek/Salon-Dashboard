@@ -12,13 +12,13 @@ const getStylish = require('./routes/stylish/getStylish');
 const updateStylish = require('./routes/stylish/updateStylish');
 const deleteStylish = require('./routes/stylish/deleteStylish');
 const addReservation = require('./routes/reservation/addReservation');
-const getReservations = require('./routes/reservation/getReservation');
 const updateReservation = require('./routes/reservation/updateReservation');
 const deleteReservation = require('./routes/reservation/deleteReservation');
 const sendAdminEmail = require("./routes/email/sendAdminEmail");
 const signup = require('./routes/auth/signup');
 const getAdmin = require('./routes/auth/getAdmin');
 const deleteAdmin = require('./routes/auth/deleteAdmin');
+const Reservations = require('./models/Reservations');
 require('dotenv').config();
 const userName = process.env.USER;
 const password = process.env.PASS;
@@ -29,6 +29,11 @@ const db = {};
 db.mongoose = mongoose;
 const Role = require('./models/Role');
 const signin = require('./routes/auth/signin');
+const availability = require('./routes/reservation/availability');
+const stylishReservations = require('./routes/reservation/stylishReservations');
+const reservationStatus = require('./routes/reservation/reservationStatus');
+const getReservation = require('./routes/reservation/getReservation');
+const getReservations = require('./routes/reservation/getReservations');
 db.ROLES = ["superAdmin", "admin"];
 
 
@@ -140,14 +145,34 @@ app.get('/get-reservation', async (req, res) => {
     getReservations(req, res);
 })
 
+//Get Reservation by ID
+app.get('/get-res/:bookingId', async (req, res) => {
+    getReservation(req, res);
+})
+
 //Update Reservation
-app.patch('/update-reservation/:id', async (req, res) => {
+app.put('/update-reservation', async (req, res) => {
     updateReservation(req, res);
 })
 
 //Delete Reservation
 app.delete('/delete-reservation/:id', async (req, res) => {
     deleteReservation(req, res);
+})
+
+//Stylish Availability
+app.get('/availability', async (req, res) => {
+    availability(req, res);
+})
+
+//Number of Reservations
+app.get('/stylish-reservations', async (req, res) => {
+    stylishReservations(req, res);
+})
+
+//Reservation status
+app.get('/reservations-status', async (req, res) => {
+    reservationStatus(req, res);
 })
 
 //////////////////////////////////////////////////
