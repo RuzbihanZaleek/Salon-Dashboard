@@ -58,8 +58,10 @@ function UpdateReservationForm(props) {
         status: "Completed"
     })
 
-    const handleChanging = (changedService) => {
-        setStylish(stylish.filter((person) => person.role === changedService));
+    const handleChanging = async (changedService) => {
+        const response = await axios.get(`http://localhost:8080/get-stylish-service/${changedService}`);
+        const newData = await response.data;
+        setStylish(newData);
     }
 
     const handleFormSubmit = (values) => {
@@ -81,11 +83,9 @@ function UpdateReservationForm(props) {
     }
 
     const getBooking = async (id) => {
-        console.log("idBooking " + id.id);
         var bookingId = id.id;
         const response = await axios.get(`http://localhost:8080/get-res/${bookingId}`);
         const booking = response.data;
-        console.log("Booking " + JSON.stringify(booking));
         setInitialValues(mapBooking(booking));
     }
 

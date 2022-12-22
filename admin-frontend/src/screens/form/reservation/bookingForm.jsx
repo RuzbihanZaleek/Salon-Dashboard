@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { addBooking } from './addBooking';
 import Header from '../../../components/Header';
 import FormikControl from '../FormikControl';
+import axios from 'axios';
 
 const initialValues = {
     client: "",
@@ -38,12 +39,11 @@ function BookingForm(props) {
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [clients, setClients] = useState([{}]);
     const [stylish, setStylish] = useState([{}]);
-    //const [serv, setServ] = useState([{}]);
 
-    const handleChanging = (changedService) => {
-        console.log("changing values " + changedService);
-        setStylish(stylish.filter((person) => person.role === changedService));
-
+    const handleChanging = async (changedService) => {
+        const response = await axios.get(`http://localhost:8080/get-stylish-service/${changedService}`);
+        const newData = await response.data;
+        setStylish(newData);
     }
 
     const handleFormSubmit = (values) => {

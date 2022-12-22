@@ -34,11 +34,9 @@ function UserCalendar(props) {
     const resArray = [];
 
     const getAllReservations = async (e) => {
-        //const res = getReservations();
         const res = await axios.get('http://localhost:8080/get-reservation');
         console.log(res);
         const data = res.data;
-        //const data = (await res).data;
         console.log(data);
         if (res.status === 404 || !data) {
             console.log("error");
@@ -46,6 +44,7 @@ function UserCalendar(props) {
             for (var j = 0; j < data.length; j++) {
                 var date = data[j].date.replace(/(..).(..).(....)/, "$3-$2-$1");
                 var time = convertTime(data[j].time);
+                //var time = moment(data[j].time, 'hh:mm:ss A').format('hh:mm A');
                 var time = time.slice(0, -3);
                 var dateTime = date + "T" + time;
 

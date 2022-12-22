@@ -34,13 +34,14 @@ const stylishReservations = require('./routes/reservation/stylishReservations');
 const reservationStatus = require('./routes/reservation/reservationStatus');
 const getReservation = require('./routes/reservation/getReservation');
 const getReservations = require('./routes/reservation/getReservations');
+const getStylishService = require('./routes/stylish/getStylishService');
 db.ROLES = ["superAdmin", "admin"];
 
 
 ///////////////////////////////////
-
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`)
@@ -130,6 +131,11 @@ app.patch('/update-stylish/:id', async (req, res) => {
 //Delete Stylish
 app.delete('/delete-stylish/:id', async (req, res) => {
     deleteStylish(req, res);
+})
+
+//Get Stylish according to the service
+app.get('/get-stylish-service/:name', async (req, res) => {
+    getStylishService(req, res);
 })
 
 //////////////////////////////////////////////////
